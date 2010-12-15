@@ -1,0 +1,45 @@
+#!/usr/local/bin/node
+//simple script to pretend to be the scan script
+// scan -i ip ip ip
+
+var sys = require('sys');
+
+// assume no debugging
+var debug = false;
+
+if (process.argv.indexOf('-d') > 0) {	
+	debug = true;
+}
+
+
+if (process.argv.length <= 2) {
+	console.log("ERROR: need an IP!");
+	help();
+}
+
+function help() {
+	console.log(process.argv[1] + " [options] ip ip ip");
+	console.log("	-h	show this messsage");
+	console.log("	-d	turn on debugging");
+	console.log("	-i  	is a list or single ip to be scanned");
+	process.exit(0);
+}
+
+if (process.argv.indexOf('-h') > 0) {
+	help();
+}
+
+
+// process is always available 
+
+// print process.argv
+process.argv.forEach(function (val, index, array) {
+	if (debug) {
+		sys.debug("val: " + val);
+		sys.debug(val.search('scan'));
+	}
+	if (val.search('node') == -1 && val != '-i' && val.search('scan') == -1) {
+  		console.log('scanning ip: ' + val);
+	}
+});
+
